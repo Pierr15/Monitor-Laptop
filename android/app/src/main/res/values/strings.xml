@@ -1,0 +1,103 @@
+<resources>
+    <string name="app_name">Aether Glass</string>
+    <string name="app_name_short">Aether</string>
+
+    <!-- Setup screen -->
+    <string name="setup_title">Device Setup</string>
+    <string name="setup_subtitle">Manage your monitored Windows devices</string>
+    <string name="no_devices_title">No Devices Registered</string>
+    <string name="no_devices_message">Add your first Windows device to start monitoring</string>
+    <string name="add_device_button">Add Device</string>
+    <string name="device_name_hint">My Laptop</string>
+    <string name="platform_hint">Windows</string>
+    <string name="agent_version_hint">1.0.0</string>
+    <string name="add_button">Add</string>
+    <string name="cancel_button">Cancel</string>
+    <string name="retry_button">Retry</string>
+    <string name="remove_device_confirmation">Remove this device?</string>
+
+    <!-- Home screen -->
+    <string name="home_title">Dashboard</string>
+    <string name="cpu_label">CPU</string>
+    <string name="memory_label">Memory</string>
+    <string name="battery_label">Battery</string>
+    <string name="storage_label">Storage</string>
+    <string name="network_label">Network</string>
+    <string name="agent_label">Agent</string>
+
+    <!-- Performance screen -->
+    <string name="performance_title">Performance</string>
+    <string name="cpu_details_title">CPU</string>
+    <string name="memory_details_title">Memory</string>
+    <string name="sensors_title">Sensors</string>
+    <string name="frequency_label">Frequency</string>
+    <string name="temperature_label">Temperature</string>
+    <string name="load_1m_label">Load (1m)</string>
+    <string name="load_5m_label">Load (5m)</string>
+    <string name="load_15m_label">Load (15m)</string>
+    <string name="swap_used_label">Swap Used</string>
+    <string name="cpu_temp_label">CPU Temp</string>
+    <string name="gpu_temp_label">GPU Temp</string>
+    <string name="fan_speed_label">Fan Speed</string>
+    <string name="gpu_usage_label">GPU Usage</string>
+    <string name="gpu_memory_label">GPU Memory</string>
+
+    <!-- Processes screen -->
+    <string name="processes_title">Processes</string>
+    <string name="process_count_format">Processes (%d)</string>
+    <string name="pid_label">PID</string>
+    <string name="cpu_usage_label">CPU</string>
+    <string name="memory_usage_label">Memory</string>
+    <string name="end_process_button">End</string>
+    <string name="system_process_label">System</string>
+
+    <!-- Files screen -->
+    <string name="files_title">Files</string>
+    <string name="download_button">Download</string>
+    <string name="folder_up_button">Up</string>
+    <string name="no_files_message">This folder is empty</string>
+
+    <!-- Control screen -->
+    <string name="control_title">Control</string>
+    <string name="power_actions_title">Power Actions</string>
+    <string name="sleep_button">Sleep</string>
+    <string name="restart_button">Restart</string>
+    <string name="shutdown_button">Shutdown</string>
+    <string name="quick_actions_title">Quick Actions</string>
+    <string name="ping_button">Ping Device</string>
+    <string name="last_command_title">Last Command Result</string>
+    <string name="sleep_confirmation">This will sleep the remote device. Continue?</string>
+    <string name="restart_confirmation">This will restart the remote device. Continue?</string>
+    <string name="shutdown_confirmation">This will shut down the remote device. This action cannot be undone.</string>
+    <string name="confirm_button">Confirm</string>
+
+    <!-- Connection status -->
+    <string name="status_connected">Connected</string>
+    <string name="status_connecting">Connecting…</string>
+    <string name="status_disconnected">Disconnected</string>
+    <string name="status_reconnecting">Reconnecting…</string>
+    <string name="status_unknown">Unknown</string>
+
+    <!-- Error states -->
+    <string name="error_title">Error</string>
+    <string name="error_connection_failed">Failed to connect to device</string>
+    <string name="error_loading_failed">Failed to load data</string>
+    <string name="error_unknown">An unknown error occurred</string>
+
+    <!-- Loading states -->
+    <string name="loading_connecting">Connecting…</string>
+    <string name="loading_data">Loading…</string>
+    <string name="loading_processes">Loading processes…</string>
+    <string name="loading_files">Loading files…</string>
+    <string name="loading_performance">Loading performance data…</string>
+
+    <!-- Empty states -->
+    <string name="empty_no_device">No Device Selected</string>
+    <string name="empty_select_device">Select a device from setup to view data</string>
+    <string name="empty_no_processes">No processes found</string>
+    <string name="empty_no_files">No files in this directory</string>
+
+    <!-- Settings -->
+    <string name="demo_mode_title">Demo Mode</string>
+    <string name="demo_mode_description">Use synthetic data for testing without a real device</string>
+</resources>

@@ -1,0 +1,32 @@
+<resources>
+    <!-- Aether Glass Color Tokens (matching GlassColors.kt) -->
+    <color name="obsidian">#08090B</color>
+    <color name="graphite">#17181B</color>
+    <color name="panel">#202226</color>
+    <color name="primary_text">#F4F4F5</color>
+    <color name="secondary_text">#A8A9AD</color>
+    <color name="muted_text">#777A80</color>
+    <color name="success">#22C55E</color>
+    <color name="warning">#F59E0B</color>
+    <color name="danger">#EF4444</color>
+
+    <!-- Material 3 theme colors mapped from Glass tokens -->
+    <color name="primary">#F4F4F5</color>
+    <color name="primary_variant">#A8A9AD</color>
+    <color name="on_primary">#08090B</color>
+    <color name="secondary">#A8A9AD</color>
+    <color name="secondary_variant">#777A80</color>
+    <color name="on_secondary">#08090B</color>
+    <color name="tertiary">#22C55E</color>
+    <color name="on_tertiary">#08090B</color>
+    <color name="error">#EF4444</color>
+    <color name="on_error">#F4F4F5</color>
+    <color name="background">#08090B</color>
+    <color name="on_background">#F4F4F5</color>
+    <color name="surface">#202226</color>
+    <color name="on_surface">#F4F4F5</color>
+    <color name="surface_variant">#17181B</color>
+    <color name="on_surface_variant">#A8A9AD</color>
+    <color name="outline">#FFFFFF1A</color> <!-- 10% white -->
+    <color name="outline_variant">#FFFFFF0D</color> <!-- 5% white -->
+</resources>
