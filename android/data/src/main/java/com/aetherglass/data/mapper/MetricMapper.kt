@@ -66,7 +66,8 @@ object MetricMapper {
             levelPercent = response.levelPercent,
             isCharging = response.isCharging,
             isPresent = response.isPresent,
-            health = com.aetherglass.domain.model.BatteryHealth.valueOf(response.health),
+            health = com.aetherglass.domain.model.BatteryHealth.values().firstOrNull { it.name.equals(response.health, ignoreCase = true) }
+                ?: com.aetherglass.domain.model.BatteryHealth.Unknown,
             technology = response.technology,
             voltageMv = response.voltageMv,
             temperatureCelsius = response.temperatureCelsius,
@@ -82,7 +83,8 @@ object MetricMapper {
             path = response.path,
             totalBytes = response.totalBytes,
             freeBytes = response.freeBytes,
-            type = com.aetherglass.domain.model.VolumeType.valueOf(response.type.uppercase()),
+            type = com.aetherglass.domain.model.VolumeType.values().firstOrNull { it.name.equals(response.type, ignoreCase = true) }
+                ?: com.aetherglass.domain.model.VolumeType.Unknown,
             fileSystem = response.fileSystem
         )
     }
@@ -106,7 +108,8 @@ object MetricMapper {
             bytesSent = response.bytesSent,
             bytesReceived = response.bytesReceived,
             isUp = response.isUp,
-            type = com.aetherglass.domain.model.InterfaceType.valueOf(response.type.uppercase())
+            type = com.aetherglass.domain.model.InterfaceType.values().firstOrNull { it.name.equals(response.type, ignoreCase = true) }
+                ?: com.aetherglass.domain.model.InterfaceType.Unknown
         )
     }
 
