@@ -41,7 +41,7 @@ val apiModule = module {
             install(ContentNegotiation) {
                 json(Json { ignoreUnknownKeys = true })
             }
-            install(defaultRequest) {
+            defaultRequest {
                 header("apikey", BuildConfig.SUPABASE_ANON_KEY)
                 // Attach the user's access token only to PostgREST requests.
                 // Auth endpoints and /auth/v1/user supply their own auth semantics.
