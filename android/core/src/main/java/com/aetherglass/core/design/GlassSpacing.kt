@@ -1,6 +1,10 @@
 package com.aetherglass.core.design
 
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.graphics.Shape
+import androidx.compose.ui.graphics.RoundedCornerShape
+import androidx.compose.runtime.staticCompositionLocalOf
+import androidx.compose.runtime.Immutable
 
 /**
  * Aether Glass spacing and sizing tokens.
@@ -64,10 +68,6 @@ object GlassSpacing {
 /**
  * Glass shape tokens for consistent rounded corners.
  */
-import androidx.compose.ui.graphics.Shape
-import androidx.compose.ui.graphics.RoundedCornerShape
-import androidx.compose.ui.unit.dp
-
 object GlassShapes {
 
     val ExtraSmall = RoundedCornerShape(GlassSpacing.RadiusXs)
@@ -92,8 +92,6 @@ object GlassShapes {
 /**
  * CompositionLocal for GlassShapes.
  */
-import androidx.compose.runtime.staticCompositionLocalOf
-
 @Immutable
 data class GlassShapeScheme(
     val extraSmall: Shape = GlassShapes.ExtraSmall,
