@@ -16,6 +16,8 @@ import com.aetherglass.data.api.UserResponse
 import com.aetherglass.data.api.SupabaseApiService
 import com.aetherglass.util.Result
 import io.ktor.client.HttpClient
+import io.ktor.client.call.body
+import io.ktor.client.statement.HttpResponse
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
 import io.ktor.client.request.get
 import io.ktor.client.request.post
@@ -37,13 +39,6 @@ class SupabaseApiServiceImpl @Inject constructor(
     private val baseUrl: String,
     private val anonKey: String
 ) : SupabaseApiService {
-
-    private suspend fun addAuthHeaders(requestBuilder: io.ktor.client.request.RequestBuilder) {
-        // In production, get token from secure storage
-        // requestBuilder.header(HttpHeaders.Authorization, "Bearer $accessToken")
-        requestBuilder.header(HttpHeaders.Authorization, "Bearer $anonKey")
-        requestBuilder.header("apikey", anonKey)
-    }
 
     override suspend fun signIn(request: SignInRequest): Result<AuthResponse> {
         return requestWithAuth { client.post("$baseUrl/auth/v1/token?grant_type=password") { body = request } }
@@ -138,10 +133,10 @@ class SupabaseApiServiceImpl @Inject constructor(
         }
     }
 
-    private suspend fun <T> requestWithAuth(block: suspend () -> T): Result<T> {
-        return com.aetherglass.util.runCatching {
-            val response = block()
-            response
-        }
+    private suspend inline fun <reified T> requestWithAuth(
+        crossinline block: suspend () -> HttpResponse
+    ): Result<T> = com.aetherglass.util.runCatching {
+        block().body<T>()
     }
+
 }
