@@ -3,13 +3,6 @@ package com.aetherglass.core
 import android.content.Context
 import androidx.compose.runtime.Composable
 import com.aetherglass.core.design.GlassThemeConfig
-import com.aetherglass.core.design.components.GlassCard
-import com.aetherglass.core.design.components.GlassCardSectioned
-import com.aetherglass.core.design.components.GlassMetricCard
-import com.aetherglass.core.design.components.GlassButton
-
-import androidx.compose.runtime.Composable
-import com.aetherglass.core.design.GlassThemeConfig
 import com.aetherglass.core.security.BiometricAuth
 import com.aetherglass.core.security.KeystoreManager
 import com.aetherglass.core.security.SecurityConfig
@@ -48,63 +41,6 @@ val coreKoinModule = module {
     single { KeystoreManager(androidContext()) }
     single { SecurityConfig }
 }
-
-package com.aetherglass.core
-
-import android.content.Context
-import androidx.compose.runtime.Composable
-import com.aetherglass.core.design.GlassThemeConfig
-import com.aetherglass.core.design.components.GlassCard
-import com.aetherglass.core.design.components.GlassCardSectioned
-import com.aetherglass.core.design.components.GlassMetricCard
-import com.aetherglass.core.design.components.GlassButton
-
-import androidx.compose.runtime.Composable
-import com.aetherglass.core.design.GlassThemeConfig
-import com.aetherglass.core.security.BiometricAuth
-import com.aetherglass.core.security.KeystoreManager
-import com.aetherglass.core.security.SecurityConfig
-import com.aetherglass.core.util.TimberTree
-import org.koin.android.ext.koin.androidContext
-import org.koin.dsl.module
-import timber.log.Timber
-
-/**
- * Initializes process-wide core utilities.
- */
-object CoreModule {
-    @Volatile
-    private var initialized = false
-
-    @Synchronized
-    fun initialize(context: Context) {
-        if (initialized) return
-        Timber.plant(TimberTree())
-        SecurityConfig.initialize(context.applicationContext)
-        initialized = true
-        Timber.tag("CoreModule").i("Core module initialized")
-    }
-
-    fun isInitialized(): Boolean = initialized
-}
-
-@Composable
-fun GlassTheme(
-    config: GlassThemeConfig = GlassThemeConfig.Default,
-    content: @Composable () -> Unit
-) = com.aetherglass.core.design.GlassTheme(config, content)
-
-val coreKoinModule = module {
-    single { BiometricAuth(androidContext()) }
-    single { KeystoreManager(androidContext()) }
-    single { SecurityConfig }
-}
-
-@Composable
-fun GlassTheme(
-    config: GlassThemeConfig = GlassThemeConfig.Default,
-    content: @Composable () -> Unit
-) = com.aetherglass.core.design.GlassTheme(config, content)
 
 /**
  * Placeholder hook for a future crash-reporting integration.
