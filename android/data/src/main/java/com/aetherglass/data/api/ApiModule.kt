@@ -2,7 +2,6 @@ package com.aetherglass.data.api
 
 import com.aetherglass.data.api.impl.AgentApiServiceImpl
 import com.aetherglass.data.api.impl.SupabaseApiServiceImpl
-import com.aetherglass.data.BuildConfig
 import io.ktor.client.HttpClient
 import io.ktor.client.engine.android.Android
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
