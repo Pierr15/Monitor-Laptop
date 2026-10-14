@@ -10,13 +10,14 @@ import com.aetherglass.data.api.RemoteAccessResponse
 import com.aetherglass.data.api.ProcessListResponse
 import com.aetherglass.data.api.CommandResponse
 import com.aetherglass.data.api.TerminateProcessRequest
-import com.aetherglass.data.api.FileListing
+import com.aetherglass.data.api.FileListingResponse
 import com.aetherglass.data.api.UploadFileRequest
 import com.aetherglass.data.api.FileUploadResponse
 import com.aetherglass.data.api.PowerRequest
 import com.aetherglass.data.api.AgentWebSocketEvent
 import com.aetherglass.util.Result
 import io.ktor.client.HttpClient
+import io.ktor.client.call.body
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
 import io.ktor.client.plugins.logging.Logging
 import io.ktor.client.request.get
@@ -78,7 +79,7 @@ class AgentApiServiceImpl @Inject constructor(
         return request { client.post("$baseUrl/api/v1/processes/$pid/terminate") { body = request } }
     }
 
-    override suspend fun listFiles(path: String): Result<FileListing> {
+    override suspend fun listFiles(path: String): Result<FileListingResponse> {
         return request { client.get("$baseUrl/api/v1/files?path=${path.encodeUrl()}") }
     }
 
@@ -113,10 +114,9 @@ class AgentApiServiceImpl @Inject constructor(
         }
     }
 
-    private suspend fun <T> request(block: suspend () -> T): Result<T> {
-        return com.aetherglass.util.runCatching {
-            val response = block()
-            response
-        }
+    private suspend inline fun <reified T> request(
+        crossinline block: suspend () -> HttpResponse
+    ): Result<T> = com.aetherglass.util.runCatching {
+        block().body<T>()
     }
 }
