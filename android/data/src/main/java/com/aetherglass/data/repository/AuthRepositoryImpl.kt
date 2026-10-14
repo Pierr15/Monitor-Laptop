@@ -6,7 +6,11 @@ import com.aetherglass.data.api.SignUpRequest
 import com.aetherglass.data.api.SupabaseApiService
 import com.aetherglass.domain.model.UserProfile
 import com.aetherglass.domain.repository.AuthRepository
+import com.aetherglass.domain.repository.AuthState
+import com.aetherglass.domain.repository.OAuthProvider
+import com.aetherglass.domain.repository.SecureStorageRepository
 import com.aetherglass.util.Result
+import com.aetherglass.util.Error
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import javax.inject.Inject
@@ -39,7 +43,7 @@ class AuthRepositoryImpl @Inject constructor(
 
     override suspend fun signInWithOAuth(provider: OAuthProvider): Result<UserProfile> {
         // TODO: Implement OAuth flow with WebView or Chrome Custom Tab
-        return Result.failure(com.aetherglass.util.Error("NOT_IMPLEMENTED", "OAuth not implemented"))
+        return Result.failure(Error("NOT_IMPLEMENTED", "OAuth not implemented"))
     }
 
     override suspend fun signOut(): Result<Unit> {
