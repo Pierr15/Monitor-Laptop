@@ -76,7 +76,7 @@ class DeviceRepositoryImpl @Inject constructor(
             demoProvider.getRegisteredDevices()
         } else {
             runCatching {
-                supabaseApi.getDevices().getOrThrow()
+                supabaseApi.getDevices().getOrThrow().map(DeviceMapper::toDomain)
             }
         }
     }
@@ -86,7 +86,7 @@ class DeviceRepositoryImpl @Inject constructor(
             demoProvider.getDevice(deviceId)
         } else {
             runCatching {
-                supabaseApi.getDevice(deviceId).getOrThrow()
+                DeviceMapper.toDomain(supabaseApi.getDevice(deviceId).getOrThrow())
             }
         }
     }
@@ -96,7 +96,7 @@ class DeviceRepositoryImpl @Inject constructor(
             demoProvider.updateDevice(device)
         } else {
             runCatching {
-                supabaseApi.updateDevice(device).getOrThrow()
+                DeviceMapper.toDomain(supabaseApi.updateDevice(device).getOrThrow())
             }
         }
     }
@@ -137,7 +137,7 @@ class DeviceRepositoryImpl @Inject constructor(
             demoProvider.getDeviceSettings(deviceId)
         } else {
             runCatching {
-                supabaseApi.getDeviceSettings(deviceId).getOrThrow().settings
+                DeviceMapper.toDomain(supabaseApi.getDeviceSettings(deviceId).getOrThrow())
             }
         }
     }
@@ -148,7 +148,7 @@ class DeviceRepositoryImpl @Inject constructor(
             demoProvider.getCurrentMetrics(deviceId)
         } else {
             runCatching {
-                agentApi.getCurrentMetrics().getOrThrow()
+                MetricMapper.toDomain(agentApi.getCurrentMetrics().getOrThrow())
             }.onSuccess { metrics ->
                 _metrics.value = Result.success(metrics)
                 _connectionStatus.value = ConnectionStatus.Connected
@@ -175,7 +175,7 @@ class DeviceRepositoryImpl @Inject constructor(
                     from = from,
                     to = to,
                     limit = limit
-                ).getOrThrow()
+                ).getOrThrow().map(MetricMapper::toMetricSample)
             }
         }
     }
@@ -221,7 +221,24 @@ class DeviceRepositoryImpl @Inject constructor(
             demoProvider.listFiles(deviceId, path)
         } else {
             runCatching {
-                agentApi.listFiles(path = path).getOrThrow()
+                agentApi.listFiles(path = path).getOrThrow().let { listing ->
+                    FileListing(
+                        path = listing.path,
+                        entries = listing.entries.map { entry ->
+                            FileEntry(
+                                name = entry.name,
+                                path = entry.path,
+                                isDirectory = entry.isDirectory,
+                                size = entry.size,
+                                modifiedAt = entry.modifiedAt,
+                                permissions = entry.permissions,
+                                mimeType = entry.mimeType
+                            )
+                        },
+                        parentPath = listing.parentPath,
+                        totalCount = listing.totalCount
+                    )
+                }
             }
         }
     }
