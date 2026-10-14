@@ -1,18 +1,13 @@
 package com.aetherglass.data.api
 
-import com.aetherglass.domain.model.Command
-import com.aetherglass.domain.model.CommandRequest
-import com.aetherglass.domain.model.CommandResponse
-import com.aetherglass.domain.model.Device
-import com.aetherglass.domain.model.DeviceRegistrationRequest
-import com.aetherglass.domain.model.DeviceRegistrationResponse
-import com.aetherglass.domain.model.FileEntry
-import com.aetherglass.domain.model.FileListing
-import com.aetherglass.domain.model.MetricSample
-import com.aetherglass.domain.model.SystemMetrics
 import io.ktor.client.statement.HttpResponse
 import kotlinx.coroutines.flow.Flow
 import kotlinx.serialization.Serializable
+import com.aetherglass.core.util.Result
+import io.ktor.client.request.get
+import io.ktor.client.request.post
+import io.ktor.client.request.patch
+import io.ktor.client.request.delete
 import java.util.UUID
 
 /**
