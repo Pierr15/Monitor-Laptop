@@ -13,7 +13,8 @@ object ProcessMapper {
             cpuPercent = response.cpuPercent,
             memoryBytes = response.memoryBytes,
             memoryPercent = response.memoryPercent,
-            status = ProcessStatus.valueOf(response.status.uppercase()),
+            status = ProcessStatus.values().firstOrNull { it.name.equals(response.status, ignoreCase = true) }
+                ?: ProcessStatus.Unknown,
             user = response.user,
             startTime = response.startTime,
             isSystem = response.isSystem,
