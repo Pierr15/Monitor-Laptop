@@ -80,7 +80,6 @@ android {
 
 dependencies {
     implementation("io.insert-koin:koin-android:3.5.3")
-    implementation("io.insert-koin:koin-androidx-viewmodel:3.5.3")
     // Core Android
     implementation(project(":core"))
     implementation(project(":data"))
@@ -102,7 +101,6 @@ dependencies {
 
     // Window insets
     implementation("androidx.window:window:1.3.0")
-    implementation("androidx.window:window-layout:1.3.0")
 
     // Biometric
     implementation("androidx.biometric:biometric-ktx:1.2.0-alpha04")
