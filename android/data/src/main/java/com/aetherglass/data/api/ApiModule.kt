@@ -6,6 +6,9 @@ import com.aetherglass.data.BuildConfig
 import io.ktor.client.HttpClient
 import io.ktor.client.engine.android.Android
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
+import io.ktor.client.plugins.defaultRequest
+import io.ktor.http.HttpHeaders
+import com.aetherglass.domain.repository.SecureStorageRepository
 import io.ktor.client.plugins.logging.Logging
 import io.ktor.serialization.kotlinx.json.json
 import kotlinx.serialization.json.Json
@@ -33,9 +36,21 @@ val apiModule = module {
     }
 
     single<HttpClient>(named("supabaseClient")) {
+        val secureStorage = get<SecureStorageRepository>()
         HttpClient(Android) {
             install(ContentNegotiation) {
                 json(Json { ignoreUnknownKeys = true })
+            }
+            install(defaultRequest) {
+                header("apikey", BuildConfig.SUPABASE_ANON_KEY)
+                // Attach the user's access token only to PostgREST requests.
+                // Auth endpoints and /auth/v1/user supply their own auth semantics.
+                if (url.encodedPath.startsWith("/rest/v1/")) {
+                    val accessToken = secureStorage.getString("access_token").getOrNull()
+                    if (!accessToken.isNullOrBlank()) {
+                        header(HttpHeaders.Authorization, "Bearer $accessToken")
+                    }
+                }
             }
             install(Logging) {
                 level = io.ktor.client.plugins.logging.LogLevel.INFO
