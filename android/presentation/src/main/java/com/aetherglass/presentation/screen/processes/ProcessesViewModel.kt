@@ -1,7 +1,7 @@
 package com.aetherglass.presentation.screen.processes
 
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewmodel.compose.viewModelScope
+import androidx.lifecycle.viewModelScope
 import com.aetherglass.core.util.Result
 import com.aetherglass.domain.model.ConnectionStatus
 import com.aetherglass.domain.model.Device
@@ -9,6 +9,7 @@ import com.aetherglass.domain.model.ProcessInfo
 import com.aetherglass.domain.usecase.DeviceUseCase
 import com.aetherglass.domain.usecase.ProcessUseCase
 import com.aetherglass.domain.usecase.ConnectionUseCase
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
@@ -34,8 +35,10 @@ class ProcessesViewModel @Inject constructor(
     }
 
     private fun loadActiveDevice() {
-        deviceUseCase.observeActiveDevice().collectAsStateWithLifecycle().value?.let { deviceId ->
-            deviceId?.let { loadDevice(it) }
+        viewModelScope.launch {
+            deviceUseCase.observeActiveDevice().collect { deviceId ->
+                if (deviceId != null) loadDevice(deviceId)
+            }
         }
     }
 
