@@ -21,8 +21,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.aetherglass.core.GlassCard
-import com.aetherglass.core.GlassMetricCard
+import com.aetherglass.core.design.components.GlassCard
+import com.aetherglass.core.design.components.GlassMetricCard
 import com.aetherglass.core.design.GlassSpacing
 import com.aetherglass.core.design.components.ConnectionStatusCard
 import com.aetherglass.core.design.components.ConnectionStatus
