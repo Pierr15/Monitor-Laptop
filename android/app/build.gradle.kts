@@ -5,7 +5,6 @@ plugins {
 
 android {
     namespace = "com.aetherglass.android"
-    buildFeatures { buildConfig = true }
     compileSdk = 34
 
     defaultConfig {
@@ -52,7 +51,7 @@ android {
     kotlinOptions {
         jvmTarget = "17"
         freeCompilerArgs += listOf(
-            "-Xopt-in=kotlin.RequiresOptIn",
+            "-opt-in=kotlin.RequiresOptIn",
             "-Xopt-in=kotlinx.coroutines.ExperimentalCoroutinesApi",
             "-Xopt-in=androidx.lifecycle.ExperimentalLifecycleApi",
             "-Xopt-in=androidx.compose.material3.ExperimentalMaterial3Api",
@@ -67,6 +66,7 @@ android {
     }
 
     buildFeatures {
+        buildConfig = true
         compose = true
         viewBinding = true
     }
