@@ -4,7 +4,7 @@ import android.content.Context
 import android.os.Build
 import androidx.security.crypto.EncryptedSharedPreferences
 import androidx.security.crypto.MasterKeys
-import com.aetherglass.core.util.ExtensionsKt.runCatching
+import com.aetherglass.core.util.runCatching
 import timber.log.Timber
 
 /**
@@ -77,12 +77,12 @@ class KeystoreManager(private val context: Context) {
      */
     fun getOrCreateKey(alias: String): javax.crypto.SecretKey {
         val fullAlias = KEY_ALIAS_PREFIX + alias
-        return runCatching {
-            keyStore.getEntry(fullAlias, null) as java.security.KeyStore.SecretKeyEntry
-        }.getOrElse {
+        return try {
+            (keyStore.getEntry(fullAlias, null) as java.security.KeyStore.SecretKeyEntry).secretKey
+        } catch (_: Exception) {
             generateKey(fullAlias)
-            keyStore.getEntry(fullAlias, null) as java.security.KeyStore.SecretKeyEntry
-        }.secretKey
+            (keyStore.getEntry(fullAlias, null) as java.security.KeyStore.SecretKeyEntry).secretKey
+        }
     }
 
     private fun generateKey(alias: String) {
