@@ -15,9 +15,9 @@ import org.koin.dsl.module
 val PresentationModule = module {
     // ViewModels
     viewModel { HomeViewModel(get(), get(), get()) }
-    viewModel { PerformanceViewModel(get(), get()) }
-    viewModel { ProcessesViewModel(get()) }
-    viewModel { FilesViewModel(get()) }
+    viewModel { PerformanceViewModel(get(), get(), get()) }
+    viewModel { ProcessesViewModel(get(), get(), get()) }
+    viewModel { FilesViewModel(get(), get(), get()) }
     viewModel { ControlViewModel(get(), get(), get(), get()) }
     viewModel { SetupViewModel(get(), get(), get()) }
 
