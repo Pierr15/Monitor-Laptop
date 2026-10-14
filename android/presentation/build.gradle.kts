@@ -32,12 +32,12 @@ android {
     kotlinOptions {
         jvmTarget = "17"
         freeCompilerArgs += listOf(
-            "-Xopt-in=kotlin.RequiresOptIn",
-            "-Xopt-in=androidx.compose.material3.ExperimentalMaterial3Api",
-            "-Xopt-in=androidx.compose.foundation.ExperimentalFoundationApi",
-            "-Xopt-in=androidx.compose.ui.ExperimentalComposeUiApi",
-            "-Xopt-in=androidx.compose.runtime.ExperimentalComposeApi",
-            "-Xopt-in=kotlinx.coroutines.ExperimentalCoroutinesApi"
+            "-opt-in=kotlin.RequiresOptIn",
+            "-opt-in=androidx.compose.material3.ExperimentalMaterial3Api",
+            "-opt-in=androidx.compose.foundation.ExperimentalFoundationApi",
+            "-opt-in=androidx.compose.ui.ExperimentalComposeUiApi",
+            "-opt-in=androidx.compose.runtime.ExperimentalComposeApi",
+            "-opt-in=kotlinx.coroutines.ExperimentalCoroutinesApi"
         )
     }
 
@@ -56,9 +56,9 @@ dependencies {
     implementation(project(":domain"))
 
     // Koin
-    implementation("io.insert-koin:koin-android:\${koinVersion}")
-    implementation("io.insert-koin:koin-androidx-compose:\${koinVersion}")
-    implementation("io.insert-koin:koin-androidx-viewmodel:\${koinVersion}")
+    implementation("io.insert-koin:koin-android:3.5.3")
+    implementation("io.insert-koin:koin-androidx-compose:3.5.3")
+    implementation("io.insert-koin:koin-androidx-viewmodel:3.5.3")
 
     // Compose
     implementation(platform("androidx.compose:compose-bom:2024.02.00"))
@@ -77,6 +77,7 @@ dependencies {
     implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.7.0")
     implementation("androidx.lifecycle:lifecycle-runtime-compose:2.7.0")
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.7.0")
+    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.7.0")
 
     // Window insets
     implementation("androidx.window:window:1.3.0")
