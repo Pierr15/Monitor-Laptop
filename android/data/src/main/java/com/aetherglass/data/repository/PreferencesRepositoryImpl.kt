@@ -1,78 +1,103 @@
 package com.aetherglass.data.repository
 
 import android.content.Context
+import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
-import androidx.datastore.preferences.core.PreferencesKeys
-import androidx.datastore.preferences.core.mutations
+import androidx.datastore.preferences.core.booleanPreferencesKey
+import androidx.datastore.preferences.core.edit
+import androidx.datastore.preferences.core.longPreferencesKey
+import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
-import androidx.datastore.preferences.rxPreferencesDataStore
+import androidx.datastore.preferences.core.emptyPreferences
 import com.aetherglass.domain.repository.PreferencesRepository
 import com.aetherglass.util.Result
-import io.reactivex.rxjava3.core.Completable
-import io.reactivex.rxjava3.core.Single
-import kotlinx.coroutines.tasks.await
-import java.util.concurrent.Executors
+import com.aetherglass.util.runCatching
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.runBlocking
+import java.io.IOException
+
+private val Context.aetherGlassPreferences: DataStore<Preferences> by preferencesDataStore(
+    name = "aether_glass_prefs"
+)
 
 /**
- * DataStore implementation of PreferencesRepository.
+ * Synchronous adapter for the legacy PreferencesRepository contract.
+ *
+ * DataStore itself is asynchronous; calls are moved to IO and isolated from
+ * the caller thread. A future API revision should make this repository suspend.
  */
 class PreferencesRepositoryImpl(
-    private val context: Context
+    context: Context
 ) : PreferencesRepository {
 
-    private val dataStore = context.preferencesDataStore("aether_glass_prefs")
+    private val dataStore = context.applicationContext.aetherGlassPreferences
 
-    override fun getString(key: String, default: String?): String? {
-        return try {
-            dataStore.data.first().getString(PreferencesKeys.stringKey(key)) ?: default
-        } catch (e: Exception) {
-            default
+    override fun getString(key: String, default: String?): String? = try {
+        runBlocking(Dispatchers.IO) {
+            dataStore.data.catch { cause ->
+                if (cause is IOException) emit(emptyPreferences()) else throw cause
+            }.first()[stringPreferencesKey(key)] ?: default
+        }
+    } catch (_: Exception) {
+        default
+    }
+
+    override fun putString(key: String, value: String): Result<Unit> = runCatching {
+        runBlocking(Dispatchers.IO) {
+            dataStore.edit { preferences -> preferences[stringPreferencesKey(key)] = value }
         }
     }
 
-    override fun putString(key: String, value: String): Result<Unit> {
-        return com.aetherglass.util.runCatching {
-            dataStore.edit { it[PreferencesKeys.stringKey(key)] = value }.await()
+    override fun getBoolean(key: String, default: Boolean): Boolean = try {
+        runBlocking(Dispatchers.IO) {
+            dataStore.data.catch { cause ->
+                if (cause is IOException) emit(emptyPreferences()) else throw cause
+            }.first()[booleanPreferencesKey(key)] ?: default
+        }
+    } catch (_: Exception) {
+        default
+    }
+
+    override fun putBoolean(key: String, value: Boolean): Result<Unit> = runCatching {
+        runBlocking(Dispatchers.IO) {
+            dataStore.edit { preferences -> preferences[booleanPreferencesKey(key)] = value }
         }
     }
 
-    override fun getBoolean(key: String, default: Boolean): Boolean {
-        return try {
-            dataStore.data.first().getBoolean(PreferencesKeys.booleanKey(key)) ?: default
-        } catch (e: Exception) {
-            default
+    override fun getLong(key: String, default: Long): Long = try {
+        runBlocking(Dispatchers.IO) {
+            dataStore.data.catch { cause ->
+                if (cause is IOException) emit(emptyPreferences()) else throw cause
+            }.first()[longPreferencesKey(key)] ?: default
+        }
+    } catch (_: Exception) {
+        default
+    }
+
+    override fun putLong(key: String, value: Long): Result<Unit> = runCatching {
+        runBlocking(Dispatchers.IO) {
+            dataStore.edit { preferences -> preferences[longPreferencesKey(key)] = value }
         }
     }
 
-    override fun putBoolean(key: String, value: Boolean): Result<Unit> {
-        return com.aetherglass.util.runCatching {
-            dataStore.edit { it[PreferencesKeys.booleanKey(key)] = value }.await()
+    override fun remove(key: String): Result<Unit> = runCatching {
+        runBlocking(Dispatchers.IO) {
+            val stringKey = stringPreferencesKey(key)
+            val booleanKey = booleanPreferencesKey(key)
+            val longKey = longPreferencesKey(key)
+            dataStore.edit { preferences ->
+                preferences.remove(stringKey)
+                preferences.remove(booleanKey)
+                preferences.remove(longKey)
+            }
         }
     }
 
-    override fun getLong(key: String, default: Long): Long {
-        return try {
-            dataStore.data.first().getLong(PreferencesKeys.longKey(key)) ?: default
-        } catch (e: Exception) {
-            default
-        }
-    }
-
-    override fun putLong(key: String, value: Long): Result<Unit> {
-        return com.aetherglass.util.runCatching {
-            dataStore.edit { it[PreferencesKeys.longKey(key)] = value }.await()
-        }
-    }
-
-    override fun remove(key: String): Result<Unit> {
-        return com.aetherglass.util.runCatching {
-            dataStore.edit { it.remove(PreferencesKeys.stringKey(key)) }.await()
-        }
-    }
-
-    override fun clear(): Result<Unit> {
-        return com.aetherglass.util.runCatching {
-            dataStore.edit { it.clear() }.await()
+    override fun clear(): Result<Unit> = runCatching {
+        runBlocking(Dispatchers.IO) {
+            dataStore.edit { preferences -> preferences.clear() }
         }
     }
 }
