@@ -7,6 +7,7 @@ import io.ktor.client.HttpClient
 import io.ktor.client.engine.android.Android
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
 import io.ktor.client.plugins.defaultRequest
+import io.ktor.client.plugins.HttpTimeout
 import io.ktor.http.HttpHeaders
 import com.aetherglass.domain.repository.SecureStorageRepository
 import io.ktor.client.plugins.logging.Logging
@@ -27,9 +28,14 @@ val apiModule = module {
             install(ContentNegotiation) {
                 json(Json { ignoreUnknownKeys = true })
             }
+            install(HttpTimeout) {
+                requestTimeoutMillis = 10_000
+                connectTimeoutMillis = 5_000
+                socketTimeoutMillis = 10_000
+            }
             install(Logging) {
                 // Do not log bodies or headers, which may contain private data.
-                level = io.ktor.client.plugins.logging.LogLevel.INFO
+                level = io.ktor.client.plugins.logging.LogLevel.NONE
             }
             expectSuccess = true
         }
@@ -40,6 +46,11 @@ val apiModule = module {
         HttpClient(Android) {
             install(ContentNegotiation) {
                 json(Json { ignoreUnknownKeys = true })
+            }
+            install(HttpTimeout) {
+                requestTimeoutMillis = 10_000
+                connectTimeoutMillis = 5_000
+                socketTimeoutMillis = 10_000
             }
             defaultRequest {
                 header("apikey", BuildConfig.SUPABASE_ANON_KEY)
@@ -53,7 +64,8 @@ val apiModule = module {
                 }
             }
             install(Logging) {
-                level = io.ktor.client.plugins.logging.LogLevel.INFO
+                // Authentication and device requests may contain private data.
+                level = io.ktor.client.plugins.logging.LogLevel.NONE
             }
             expectSuccess = true
         }
