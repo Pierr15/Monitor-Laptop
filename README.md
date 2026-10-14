@@ -60,6 +60,27 @@ Open the `android/` directory in Android Studio. Let Gradle sync complete, and r
 
 ## 2. Build and run the Android app
 
+### Current repository limitations
+
+The current tree is an Android-only prototype. It does **not** contain the documented `windows-agent/` or `supabase/` backend directories, so live laptop telemetry, agent commands, and cloud-backed authentication cannot work until those components are implemented and configured.
+
+A Gradle Wrapper launcher is provided, but the wrapper JAR and wrapper properties must also be present. If the wrapper files are missing in your checkout, regenerate them using a local Gradle installation from the `android/` directory:
+
+```bash
+gradle wrapper --gradle-version 8.6
+```
+
+The agent URL and Supabase configuration are build-time properties, not hard-coded production endpoints. Supply values in `android/gradle.properties` for local work or as Gradle project properties, for example:
+
+```properties
+AGENT_BASE_URL=https://<your-private-agent-host>:8443
+SUPABASE_URL=https://<your-project-ref>.supabase.co
+SUPABASE_ANON_KEY=<your-public-anon-or-publishable-key>
+```
+
+Do not place a Supabase service-role key, signing password, or private key in source control. A production agent needs trusted TLS and server-side authentication. The placeholder localhost endpoint only points to the Android device itself and is not a working remote laptop connection.
+
+
 ### With Android Studio
 
 1. Open the repository's `android/` folder as a project.
