@@ -20,6 +20,7 @@ import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
 import io.ktor.client.plugins.logging.Logging
+import io.ktor.client.plugins.HttpTimeout
 import io.ktor.client.request.get
 import io.ktor.client.request.post
 import io.ktor.client.statement.HttpResponse
@@ -40,6 +41,17 @@ class AgentApiServiceImpl @Inject constructor(
     private val client: HttpClient,
     private val baseUrl: String
 ) : AgentApiService {
+
+    init {
+        require(baseUrl.startsWith("https://") || baseUrl.startsWith("http://10.") ||
+            baseUrl.startsWith("http://192.168.") || baseUrl.startsWith("http://172.16.") ||
+            baseUrl.startsWith("http://172.17.") || baseUrl.startsWith("http://172.18.") ||
+            baseUrl.startsWith("http://172.19.") || baseUrl.startsWith("http://172.2") ||
+            baseUrl.startsWith("http://172.30.") || baseUrl.startsWith("http://172.31.") ||
+            baseUrl.startsWith("https://localhost") || baseUrl.startsWith("http://localhost")) {
+            "Agent endpoint must use HTTPS, or an explicitly configured private-network HTTP endpoint."
+        }
+    }
 
     override suspend fun getSystemSummary(): Result<SystemSummaryResponse> {
         return request { client.get("$baseUrl/api/v1/system/summary") }
@@ -84,7 +96,7 @@ class AgentApiServiceImpl @Inject constructor(
     }
 
     override suspend fun downloadFile(path: String): HttpResponse {
-        return client.get("$baseUrl/api/v1/files/download?path=${path.encodeUrl()}") { }
+        return client.get("$baseUrl/api/v1/files/download?path=${path.encodeUrl()}")
     }
 
     override suspend fun uploadFile(request: UploadFileRequest): Result<FileUploadResponse> {
