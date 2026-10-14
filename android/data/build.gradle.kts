@@ -7,9 +7,7 @@ plugins {
 android {
     namespace = "com.aetherglass.data"
     compileSdk = 34
-
     buildFeatures { buildConfig = true }
-
     defaultConfig {
         minSdk = 26
         buildConfigField("String", "AGENT_BASE_URL", "\"${providers.gradleProperty(\"AGENT_BASE_URL\").orElse(\"https://localhost:8443\").get()}\"")
@@ -17,15 +15,8 @@ android {
         buildConfigField("String", "SUPABASE_ANON_KEY", "\"${providers.gradleProperty(\"SUPABASE_ANON_KEY\").orElse(\"\").get()}\"")
         consumerProguardFiles("consumer-rules.pro")
     }
-
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_17
-        targetCompatibility = JavaVersion.VERSION_17
-    }
-    kotlinOptions {
-        jvmTarget = "17"
-        freeCompilerArgs += listOf("-opt-in=kotlin.RequiresOptIn", "-opt-in=kotlinx.coroutines.ExperimentalCoroutinesApi")
-    }
+    compileOptions { sourceCompatibility = JavaVersion.VERSION_17; targetCompatibility = JavaVersion.VERSION_17 }
+    kotlinOptions { jvmTarget = "17"; freeCompilerArgs += listOf("-opt-in=kotlin.RequiresOptIn", "-opt-in=kotlinx.coroutines.ExperimentalCoroutinesApi") }
     composeOptions { kotlinCompilerExtensionVersion = "1.5.11" }
 }
 
