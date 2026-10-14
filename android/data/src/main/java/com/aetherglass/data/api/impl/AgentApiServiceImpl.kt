@@ -24,6 +24,8 @@ import io.ktor.client.statement.HttpResponse
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.Flow
 import java.util.UUID
+import javax.inject.Inject
+import javax.inject.Singleton
 
 @Singleton
 class AgentApiServiceImpl @Inject constructor(
