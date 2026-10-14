@@ -7,12 +7,12 @@ import androidx.core.view.WindowCompat
 import com.aetherglass.core.GlassTheme
 import com.aetherglass.presentation.navigation.AppNavHost
 import com.aetherglass.presentation.screen.setup.SetupViewModel
-import org.koin.android.ext.android.inject
+import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.util.UUID
 
 class MainActivity : ComponentActivity() {
 
-    private val setupViewModel: SetupViewModel by inject()
+    private val setupViewModel: SetupViewModel by viewModel()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
