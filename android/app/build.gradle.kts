@@ -18,6 +18,18 @@ android {
         vectorDrawables.useSupportLibrary = true
     }
 
+    signingConfigs {
+        create("release") {
+            val keystorePath = providers.environmentVariable("KEYSTORE_PATH").orNull
+            if (!keystorePath.isNullOrBlank()) {
+                storeFile = file(keystorePath)
+                storePassword = providers.environmentVariable("KEYSTORE_PASSWORD").orNull
+                keyAlias = providers.environmentVariable("KEY_ALIAS").orNull
+                keyPassword = providers.environmentVariable("KEY_PASSWORD").orNull
+            }
+        }
+    }
+
     buildTypes {
         release {
             isMinifyEnabled = true
@@ -60,11 +72,10 @@ android {
         viewBinding = true
     }
 
-    packagingOptions {
-        resources.excludes += listOf(
-            "META-INF/*.kotlin_module",
-            "META-INF/proguard/*"
-        )
+    packaging {
+        resources {
+            excludes += listOf("META-INF/*.kotlin_module", "META-INF/proguard/*")
+        }
     }
 }
 
