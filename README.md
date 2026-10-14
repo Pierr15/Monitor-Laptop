@@ -91,18 +91,28 @@ Do not place a Supabase service-role key, signing password, or private key in so
 
 ### From a terminal
 
+The Gradle Wrapper is not committed in this repository yet. Until it is generated and committed, install Gradle 8.6 locally and run:
+
 On Windows PowerShell:
 
 ```powershell
 cd android
-.\gradlew.bat assembleDebug
+gradle assembleDebug
+gradle test
 ```
 
 On macOS/Linux:
 
 ```bash
 cd android
-./gradlew assembleDebug
+gradle assembleDebug
+gradle test
+```
+
+To generate the Wrapper from an installed Gradle 8.6 distribution, run this once from `android/`, then commit the generated `gradlew`, `gradlew.bat`, `gradle/wrapper/gradle-wrapper.jar`, and `gradle/wrapper/gradle-wrapper.properties` files:
+
+```bash
+gradle wrapper --gradle-version 8.6
 ```
 
 The debug APK is normally generated under `android/app/build/outputs/apk/debug/`. The exact output depends on the Gradle configuration.
