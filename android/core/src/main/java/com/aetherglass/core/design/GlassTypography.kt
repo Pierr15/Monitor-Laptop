@@ -5,6 +5,9 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.runtime.CompositionLocal
+import androidx.compose.runtime.staticCompositionLocalOf
+import androidx.compose.runtime.Immutable
 
 /**
  * Aether Glass typography system.
@@ -192,9 +195,6 @@ object GlassTypography {
 /**
  * CompositionLocal for GlassTypography.
  */
-import androidx.compose.runtime.CompositionLocal
-import androidx.compose.runtime.staticCompositionLocalOf
-
 @Immutable
 data class GlassTypographyScheme(
     val displayLarge: TextStyle = GlassTypography.DisplayLarge,
