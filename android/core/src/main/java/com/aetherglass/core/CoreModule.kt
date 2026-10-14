@@ -1,10 +1,6 @@
 package com.aetherglass.core
 
 import android.content.Context
-import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.viewmodel.compose.viewModel
-import com.aetherglass.core.design.GlassTheme
-import com.aetherglass.core.design.GlassThemeConfig
 import com.aetherglass.core.design.components.GlassBottomSheet
 import com.aetherglass.core.design.components.GlassCard
 import com.aetherglass.core.design.components.GlassCardSectioned
@@ -43,6 +39,8 @@ import com.aetherglass.core.util.ExtensionsKt
 import com.aetherglass.core.util.TimberTree
 import timber.log.Timber
 import org.koin.dsl.module
+import org.koin.android.ext.koin.androidContext
+import androidx.compose.runtime.Composable
 
 /**
  * Core module initialization and exports.
@@ -88,16 +86,6 @@ class CrashReportingTree : Timber.Tree() {
         }
     }
 }
-
-/**
- * Extension functions for ViewModel access.
- */
-@Composable
-inline fun <reified T : androidx.lifecycle.ViewModel> viewModel(
-    key: String? = null,
-    viewModelStoreOwner: androidx.lifecycle.ViewModelStoreOwner = androidx.lifecycle.viewmodel.compose.LocalViewModelStoreOwner.current,
-    factory: ViewModelProvider.Factory? = null
-): T = viewModel(key, viewModelStoreOwner, factory)
 
 /**
  * Re-export all design system components for convenience.
