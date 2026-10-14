@@ -79,6 +79,8 @@ android {
 }
 
 dependencies {
+    implementation("io.insert-koin:koin-android:3.5.3")
+    implementation("io.insert-koin:koin-androidx-viewmodel:3.5.3")
     // Core Android
     implementation(project(":core"))
     implementation(project(":data"))
