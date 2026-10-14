@@ -16,13 +16,14 @@ import com.aetherglass.domain.repository.NotificationRepository
 import com.aetherglass.domain.repository.PreferencesRepository
 import com.aetherglass.domain.repository.SecureStorageRepository
 import org.koin.dsl.module
+import org.koin.android.ext.koin.androidContext
 
 /**
  * Koin module for data layer - repositories and implementations.
  */
-val dataModule = module {
+val DataModule = module {
     // Include API module
-    include(apiModule)
+    includes(apiModule)
 
     // Mappers
     single { DeviceMapper }
@@ -37,5 +38,5 @@ val dataModule = module {
     single<SecureStorageRepository> { SecureStorageRepositoryImpl(androidContext()) }
     single<AuthRepository> { AuthRepositoryImpl(get(), get()) }
     single<NotificationRepository> { NotificationRepositoryImpl(androidContext()) }
-    single<DeviceRepository> { DeviceRepositoryImpl(get(), get(), get(), get(), get(), get()) }
+    single<DeviceRepository> { DeviceRepositoryImpl(get(), get(), get(), get(), get()) }
 }
