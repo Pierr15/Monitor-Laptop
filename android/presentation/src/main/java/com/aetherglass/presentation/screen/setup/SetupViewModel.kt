@@ -1,7 +1,7 @@
 package com.aetherglass.presentation.screen.setup
 
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewmodel.compose.viewModelScope
+import androidx.lifecycle.viewModelScope
 import com.aetherglass.core.util.Result
 import com.aetherglass.domain.model.Device
 import com.aetherglass.domain.model.DeviceRegistrationRequest
@@ -9,6 +9,7 @@ import com.aetherglass.domain.model.DeviceCapabilities
 import com.aetherglass.domain.usecase.AuthUseCase
 import com.aetherglass.domain.usecase.DeviceUseCase
 import com.aetherglass.domain.usecase.PreferencesUseCase
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
