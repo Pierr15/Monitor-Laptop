@@ -4,7 +4,8 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.ColorScheme
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.ProvideableCompositionLocal
+import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shadow
@@ -20,7 +21,7 @@ data class GlassThemeConfig(
     val colors: GlassColorScheme = GlassColorScheme.Default,
     val typography: GlassTypographyScheme = GlassTypographyScheme.Default,
     val shapes: GlassShapeScheme = GlassShapeScheme.Default,
-    val spacing: GlassSpacing.type = GlassSpacing,
+    val spacing: GlassSpacing = GlassSpacing,
     val elevation: GlassElevation = GlassElevation.Default,
     val motion: GlassMotion = GlassMotion.Default,
 ) {
@@ -174,7 +175,7 @@ fun glassTypography(): GlassTypographyScheme = LocalGlassTypography.current
 fun glassShapes(): GlassShapeScheme = LocalGlassShapes.current
 
 @Composable
-fun glassSpacing(): GlassSpacing.type = LocalGlassTheme.current.spacing
+fun glassSpacing(): GlassSpacing = LocalGlassTheme.current.spacing
 
 @Composable
 fun glassElevation(): GlassElevation = LocalGlassElevation.current
