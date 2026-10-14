@@ -1,6 +1,8 @@
 package com.aetherglass.core
 
 import android.content.Context
+import androidx.compose.runtime.Composable
+import com.aetherglass.core.design.GlassThemeConfig
 import com.aetherglass.core.security.BiometricAuth
 import com.aetherglass.core.security.KeystoreManager
 import com.aetherglass.core.security.SecurityConfig
@@ -33,6 +35,12 @@ val coreKoinModule = module {
     single { KeystoreManager(androidContext()) }
     single { SecurityConfig }
 }
+
+@Composable
+fun GlassTheme(
+    config: GlassThemeConfig = GlassThemeConfig.Default,
+    content: @Composable () -> Unit
+) = com.aetherglass.core.design.GlassTheme(config, content)
 
 /**
  * Placeholder hook for a future crash-reporting integration.
