@@ -42,6 +42,7 @@ class AgentApiServiceImpl @Inject constructor(
                 endpoint.userInfo == null &&
                 endpoint.query == null &&
                 endpoint.fragment == null &&
+                endpoint.path.orEmpty().trimEnd('/').isEmpty() &&
                 (endpoint.scheme.equals("https", ignoreCase = true) ||
                     (endpoint.scheme.equals("http", ignoreCase = true) &&
                         (endpoint.host.equals("localhost", ignoreCase = true) ||
@@ -52,7 +53,7 @@ class AgentApiServiceImpl @Inject constructor(
                             endpoint.host.startsWith("192.168.") ||
                             endpoint.host.matches(Regex("""172\.(1[6-9]|2[0-9]|3[01])\..+""")))))
         ) {
-            "Agent URL must be an absolute HTTPS URL, or a private/local HTTP URL. Do not embed credentials, query strings, or fragments."
+            "Agent URL must be an absolute HTTPS URL, or a private/local HTTP URL without embedded paths, credentials, query strings, or fragments."
         }
     }
 
