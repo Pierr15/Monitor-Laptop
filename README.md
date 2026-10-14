@@ -64,11 +64,7 @@ Open the `android/` directory in Android Studio. Let Gradle sync complete, and r
 
 The current tree is an Android-only prototype. It does **not** contain the documented `windows-agent/` or `supabase/` backend directories, so live laptop telemetry, agent commands, and cloud-backed authentication cannot work until those components are implemented and configured.
 
-This repository currently does not include the complete Gradle Wrapper (the wrapper JAR and wrapper properties are missing). You can open `android/` in Android Studio, or install Gradle 8.6 locally and build with `gradle assembleDebug`. To generate and commit the Wrapper files, run the following from `android/` after installing Gradle:
-
-```bash
-gradle wrapper --gradle-version 8.6
-```
+This repository currently does not include the complete Gradle Wrapper, so use the terminal instructions below until wrapper files are generated and committed.
 
 The agent URL and Supabase configuration are build-time properties, not hard-coded production endpoints. Supply values in `android/gradle.properties` for local work or as Gradle project properties, for example:
 
