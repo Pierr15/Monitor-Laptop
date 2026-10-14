@@ -18,23 +18,12 @@ import com.aetherglass.data.api.AgentWebSocketEvent
 import com.aetherglass.util.Result
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
-import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
-import io.ktor.client.plugins.logging.Logging
-import io.ktor.client.plugins.HttpTimeout
 import io.ktor.client.request.get
 import io.ktor.client.request.post
 import io.ktor.client.statement.HttpResponse
-import io.ktor.http.ContentType
-import io.ktor.http.HttpMethod
-import io.ktor.http.HttpStatusCode
-import io.ktor.serialization.kotlinx.json.json
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.Flow
-import kotlinx.serialization.json.Json
-import java.net.URL
 import java.util.UUID
-import javax.inject.Inject
-import javax.inject.Singleton
 
 @Singleton
 class AgentApiServiceImpl @Inject constructor(
@@ -43,13 +32,25 @@ class AgentApiServiceImpl @Inject constructor(
 ) : AgentApiService {
 
     init {
-        require(baseUrl.startsWith("https://") || baseUrl.startsWith("http://10.") ||
-            baseUrl.startsWith("http://192.168.") || baseUrl.startsWith("http://172.16.") ||
-            baseUrl.startsWith("http://172.17.") || baseUrl.startsWith("http://172.18.") ||
-            baseUrl.startsWith("http://172.19.") || baseUrl.startsWith("http://172.2") ||
-            baseUrl.startsWith("http://172.30.") || baseUrl.startsWith("http://172.31.") ||
-            baseUrl.startsWith("https://localhost") || baseUrl.startsWith("http://localhost")) {
-            "Agent endpoint must use HTTPS, or an explicitly configured private-network HTTP endpoint."
+        val endpoint = runCatching { java.net.URI(baseUrl) }.getOrNull()
+        require(
+            endpoint != null &&
+                endpoint.isAbsolute &&
+                endpoint.host != null &&
+                endpoint.userInfo == null &&
+                endpoint.query == null &&
+                endpoint.fragment == null &&
+                (endpoint.scheme.equals("https", ignoreCase = true) ||
+                    (endpoint.scheme.equals("http", ignoreCase = true) &&
+                        (endpoint.host.equals("localhost", ignoreCase = true) ||
+                            endpoint.host == "127.0.0.1" ||
+                            endpoint.host == "::1" ||
+                            endpoint.host.startsWith("100.") ||
+                            endpoint.host.startsWith("10.") ||
+                            endpoint.host.startsWith("192.168.") ||
+                            endpoint.host.matches(Regex("""172\.(1[6-9]|2[0-9]|3[01])\..+""")))))
+        ) {
+            "Agent URL must be an absolute HTTPS URL, or a private/local HTTP URL. Do not embed credentials, query strings, or fragments."
         }
     }
 
@@ -119,11 +120,10 @@ class AgentApiServiceImpl @Inject constructor(
         return request { client.get("$baseUrl/api/v1/commands/$id") }
     }
 
-    override fun connectWebSocket(): Flow<AgentWebSocketEvent> {
-        return flow {
-            // TODO: Implement WebSocket connection using Ktor WebSocket client
-            // This is a placeholder - actual implementation would use client.webSocket()
-        }
+    override fun connectWebSocket(): Flow<AgentWebSocketEvent> = flow {
+        // Live agent streaming is not implemented. Fail explicitly instead of
+        // returning a Flow that completes normally while appearing connected.
+        throw UnsupportedOperationException("Agent WebSocket streaming is not implemented yet.")
     }
 
     private suspend inline fun <reified T> request(
